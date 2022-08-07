@@ -9,8 +9,8 @@
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/songArt"
+            android:id="@+id/albumArt"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/test_art"
-            android:contentDescription="@string/song_art" />
+            android:contentDescription="@string/song_art"
+            android:src="@drawable/test_art" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,16 +33,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/songTitle"
+                android:id="@+id/albumTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/song_name" />
+                android:text="@string/album_name" />
 
             <TextView
-                android:id="@+id/artistName"
+                android:id="@+id/numberOfSongs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/artist_name"
+                android:text="@string/number_of_songs"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            app:drawableLeftCompat="@drawable/more_vert" />
+            app:drawableLeftCompat="@drawable/arrow_forward" />
 
     </LinearLayout>
 

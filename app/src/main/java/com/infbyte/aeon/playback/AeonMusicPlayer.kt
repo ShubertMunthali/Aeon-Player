@@ -16,8 +16,8 @@ import com.infbyte.aeon.ui.listeners.PlaybackListener
 
 class AeonMusicPlayer private constructor(private val context: Context): MediaPlayer(), MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     private constructor(context: Context, song: Song): this(context){
-        currentSong = song
-        initialize()
+            currentSong = song
+            initialize()
     }
 
     private val currentSongList = mutableListOf<Song>()
@@ -32,13 +32,10 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .build()
         )
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currentSong?.id!!)
-        setDataSource(context, uri)
-        prepare()
-        preferences.storeCurrentSong(currentSong!!)
+        prepareSong(currentSong!!)
     }
 
-    private fun reInitialize(song: Song){
+    fun prepareSong(song: Song){
         currentSong = song
         preferences.storeCurrentSong(currentSong!!)
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, song.id)
@@ -55,14 +52,8 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
             currentSongList.addAll(songs)
     }
 
-    fun getCurrentSong() = currentSong!!
-
     fun play(){
-        playbackListener?.onSongPlayed(context)
-    }
-
-    override fun pause(){
-        super.pause()
+        playbackListener?.onSongPlayed(context){}
     }
 
     fun playNext(){
@@ -73,10 +64,12 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
             if(nextIndex > currentSongList.size)
                 nextIndex = 0
         }
+
         if(nextIndex < currentSongList.size)
             currentSong = currentSongList[nextIndex]
-        reInitialize(currentSong!!)
-        playbackListener?.onSongPlayed(context)
+
+        prepareSong(currentSong!!)
+        playbackListener?.onSongPlayed(context){}
     }
 
     fun playPrevious(){
@@ -86,8 +79,8 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
             nextIndex = currentIndex - 1
         }
         if(nextIndex < currentSongList.size && nextIndex >= 0) currentSong = currentSongList[nextIndex]
-        reInitialize(currentSong!!)
-        playbackListener?.onSongPlayed(context)
+        prepareSong(currentSong!!)
+        playbackListener?.onSongPlayed(context){}
     }
 
     private fun shuffle(){
@@ -95,13 +88,13 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
         if(currentSongList.isNotEmpty()) nextSong = currentSongList.random()
         if(nextSong != currentSong) currentSong = nextSong
         else shuffle()
-        reInitialize(currentSong!!)
-        playbackListener?.onSongPlayed(context)
+        prepareSong(currentSong!!)
+        playbackListener?.onSongPlayed(context){}
     }
 
     private fun repeat(){
-        reInitialize(currentSong!!)
-        playbackListener?.onSongPlayed(context)
+        prepareSong(currentSong!!)
+        playbackListener?.onSongPlayed(context){}
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
@@ -138,18 +131,19 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
 
         private var currentSong: Song? = null
 
+        fun initialize(context: Context, song: Song): AeonMusicPlayer{
+            return getInstance(context, song)
+        }
+
         fun getInstance(context: Context): AeonMusicPlayer{
             if(musicPlayerInstance == null)
                 musicPlayerInstance = AeonMusicPlayer(context)
             return musicPlayerInstance!!
         }
 
-        fun getInstance(context: Context, song: Song): AeonMusicPlayer{
+        private fun getInstance(context: Context, song: Song): AeonMusicPlayer{
             if(musicPlayerInstance == null){
                 musicPlayerInstance = AeonMusicPlayer(context, song)
-            }
-            else{
-                musicPlayerInstance?.reInitialize(song)
             }
             return musicPlayerInstance!!
         }
@@ -162,8 +156,6 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
             playMode = mode
         }
 
-        fun setInitialSong(context: Context, song: Song){
-            getInstance(context, song)
-        }
+        fun getCurrentSong() = currentSong!!
     }
 }

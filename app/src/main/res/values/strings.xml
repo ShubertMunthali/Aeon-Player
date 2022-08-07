@@ -13,4 +13,6 @@
     <string name="play_previous">Press to play previous</string>
     <string name="play_pause">Press to play or pause</string>
     <string name="play_next">Press to play next</string>
+    <string name="album_name">Album</string>
+    <string name="number_of_songs">Number of songs</string>
 </resources>

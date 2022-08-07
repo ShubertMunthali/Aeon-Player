@@ -15,15 +15,15 @@ import com.infbyte.aeon.BuildConfig
 import com.infbyte.aeon.R
 import com.infbyte.aeon.contracts.AeonResultContracts
 import com.infbyte.aeon.databinding.AeonMainBinding
-import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.permissions.AeonPermissions
 import com.infbyte.aeon.playback.AeonMusicPlayer
 import com.infbyte.aeon.preferences.AeonPreferences
 import com.infbyte.aeon.ui.adapters.PagerAdapter
 import com.infbyte.aeon.ui.fragments.*
 import com.infbyte.aeon.ui.listeners.PlaybackListener
-import com.infbyte.aeon.ui.listeners.onSongChanged
+import com.infbyte.aeon.viewmodels.AlbumsViewModel
 import com.infbyte.aeon.viewmodels.SongsViewModel
+import java.util.concurrent.Executors
 
 class AeonMainActivity: AppCompatActivity(), PlaybackListener {
 
@@ -37,6 +37,7 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
     private val folders = Folders.newInstance()
 
     private val songsViewModel: SongsViewModel by viewModels()
+    private val albumsViewModel: AlbumsViewModel by viewModels()
 
     private val fragments =
         listOf(
@@ -67,6 +68,8 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
     private lateinit var songTitle: TextView
     private lateinit var artistName: TextView
 
+    private val progressExecutor = Executors.newSingleThreadScheduledExecutor()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = AeonMainBinding.inflate(layoutInflater)
@@ -92,10 +95,10 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
             loadMedia()
 
         playPause.setOnClickListener{
-            if(AeonMusicPlayer.getInstance(this).isPlaying)
-                onSongPaused(this)
+            if (AeonMusicPlayer.getInstance(this).isPlaying)
+                onSongPaused(this) {}
             else
-                onSongPlayed(this)
+                onSongPlayed(this) {}
         }
 
         skipNext.setOnClickListener{
@@ -108,40 +111,40 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
 
         val preferences = AeonPreferences.getInstance(this)
 
-        songsViewModel.getAllSongs(this)
+        songsViewModel.loadAllSongs(this)
+        //albumsViewModel.loadAllAlbums(this)
 
         AeonMusicPlayer.setPlaybackListener(this)
         AeonMusicPlayer.setPlayMode(preferences.getPlayMode())
-        AeonMusicPlayer.setInitialSong( this, songsViewModel.getSongById(preferences.getCurrentSongId()))
+        AeonMusicPlayer.initialize(
+            this, songsViewModel.getSongById(preferences.getCurrentSongId()))
 
+        displaySong()
+
+        updateSongProgress(progressBar)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        progressExecutor.shutdownNow()
+        AeonMusicPlayer.getInstance(this).release()
     }
 
     //Playback Methods
 
-    override fun onSongPlayed(context: Context) {
+    override fun onSongPlayed(context: Context, player: (AeonMusicPlayer) -> Unit) {
         playPause.setImageResource(R.drawable.pause)
-        super.onSongPlayed(context)
-        displaySong()
+        super.onSongPlayed(context){
+            progressBar.max = it.duration
+            songsViewModel.startMonitoringSongProgress(it)
+            displaySong()
+        }
     }
 
-    override fun onSongPaused(context: Context) {
+    override fun onSongPaused(context: Context, player: (AeonMusicPlayer) -> Unit) {
         playPause.setImageResource(R.drawable.play)
-        super.onSongPaused(context)
-    }
-
-    override fun onSongSkippedToNext(context: Context) {
-        super.onSongSkippedToNext(context)
-        displaySong()
-    }
-
-    override fun onSongSkippedToPrevious(context: Context) {
-        super.onSongSkippedToPrevious(context)
-        displaySong()
+        super.onSongPaused(context) {}
     }
 
     private fun loadMedia(){
@@ -161,7 +164,13 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
     private fun displaySong() {
         onSongChanged {
             songTitle.text = it.title
-            artistName.text = it.title
+            artistName.text = it.artist
+        }
+    }
+
+    private fun AppCompatActivity.updateSongProgress(progressBar: ProgressBar) {
+        songsViewModel.getProgress().observe(this){
+            progressBar.progress = it
         }
     }
 }

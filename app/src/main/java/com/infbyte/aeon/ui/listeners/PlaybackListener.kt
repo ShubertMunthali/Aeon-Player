@@ -8,12 +8,18 @@ import com.infbyte.aeon.ui.activities.AeonMainActivity
 
 interface  PlaybackListener {
 
-    fun onSongPlayed(context: Context) {
-        AeonMusicPlayer.getInstance(context).start()
+    fun onSongPlayed(context: Context, player: (AeonMusicPlayer) -> Unit) {
+        val aeonPlayer = AeonMusicPlayer.getInstance(context)
+        aeonPlayer.start()
+        //AeonMusicPlayer.isPlaying.value = aeonPlayer.isPlaying
+        player(aeonPlayer)
     }
 
-    fun onSongPaused(context: Context) {
-        AeonMusicPlayer.getInstance(context).pause()
+    fun onSongPaused(context: Context, player: (AeonMusicPlayer) -> Unit) {
+        val aeonPlayer = AeonMusicPlayer.getInstance(context)
+        aeonPlayer.pause()
+        //AeonMusicPlayer.isPlaying.value = aeonPlayer.isPlaying
+        player(aeonPlayer)
     }
 
     fun onSongSkippedToNext(context: Context) {
@@ -23,8 +29,8 @@ interface  PlaybackListener {
     fun onSongSkippedToPrevious(context: Context){
         AeonMusicPlayer.getInstance(context).playPrevious()
     }
-}
 
-fun AppCompatActivity.onSongChanged(song: (Song) -> Unit) {
-    song(AeonMusicPlayer.getInstance(this).getCurrentSong())
+    fun onSongChanged(song: (Song) -> Unit) {
+        song(AeonMusicPlayer.getCurrentSong())
+    }
 }

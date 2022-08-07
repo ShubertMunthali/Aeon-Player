@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.infbyte.aeon.R
 import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.playback.AeonMusicPlayer
+import de.hdodenhof.circleimageview.CircleImageView
 
 class SongsAdapter(private val songs: List<Song>): RecyclerView.Adapter<SongsAdapter.SongViewHolder>() {
 
@@ -27,6 +28,7 @@ class SongsAdapter(private val songs: List<Song>): RecyclerView.Adapter<SongsAda
     inner class SongViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val title: TextView = itemView.findViewById(R.id.songTitle)
         val artist: TextView = itemView.findViewById(R.id.artistName)
+        val songArt: CircleImageView = itemView.findViewById(R.id.songArt)
 
         init{
             itemView.setOnClickListener(this)
@@ -36,15 +38,25 @@ class SongsAdapter(private val songs: List<Song>): RecyclerView.Adapter<SongsAda
             val context = v.context
             if(songs.isNotEmpty()) {
                 val selectedSong = songs[adapterPosition]
-                AeonMusicPlayer.getInstance(context, selectedSong).apply {
-                    setCurrentSongs(songs)
-                    play()
+                if(selectedSong != AeonMusicPlayer.getCurrentSong())
+                    AeonMusicPlayer.getInstance(context).apply {
+                        prepareSong(selectedSong)
+                        setCurrentSongs(songs)
+                        play()
+                    }
+
+                if(!AeonMusicPlayer.getInstance(context).isPlaying)
+                    AeonMusicPlayer.getInstance(context).apply{
+                        setCurrentSongs(songs)
+                        play()
+                    }
+                else{
+                    AeonMusicPlayer.getInstance(context).apply {
+                        setCurrentSongs(songs)
+                    }
+                    //Open playing activity
                 }
             }
         }
-    }
-
-    companion object{
-        var aeonMusicPlayer: AeonMusicPlayer? = null
     }
 }

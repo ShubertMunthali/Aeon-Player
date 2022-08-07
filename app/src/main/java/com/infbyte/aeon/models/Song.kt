@@ -1,9 +1,12 @@
 package com.infbyte.aeon.models
 
 data class Song (
-    var id: Long,
-    var title: String,
-    var artist: String,
-    var album: String,
-    var duration: Long
+    val id: Long,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val duration: Long,
+    val albumId: Int,
+    var art: String = "",
+    val path: String
     )
