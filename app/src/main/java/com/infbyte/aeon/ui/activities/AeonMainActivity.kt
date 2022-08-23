@@ -21,8 +21,7 @@ import com.infbyte.aeon.preferences.AeonPreferences
 import com.infbyte.aeon.ui.adapters.PagerAdapter
 import com.infbyte.aeon.ui.fragments.*
 import com.infbyte.aeon.ui.listeners.PlaybackListener
-import com.infbyte.aeon.viewmodels.AlbumsViewModel
-import com.infbyte.aeon.viewmodels.SongsViewModel
+import com.infbyte.aeon.viewmodels.AeonMusicViewModel
 import java.util.concurrent.Executors
 
 class AeonMainActivity: AppCompatActivity(), PlaybackListener {
@@ -36,8 +35,7 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
     private val albums = Albums.newInstance()
     private val folders = Folders.newInstance()
 
-    private val songsViewModel: SongsViewModel by viewModels()
-    private val albumsViewModel: AlbumsViewModel by viewModels()
+    private val songsViewModel: AeonMusicViewModel by viewModels()
 
     private val fragments =
         listOf(
@@ -49,14 +47,18 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
         )
 
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted ->
-        if(isGranted)
+        if(isGranted) {
             loadMedia()
+            initMusicPlayer()
+        }
         else finish()
     }
 
     private val permissionLauncherAPI30 = registerForActivityResult(AeonResultContracts.API30RequestPermission()){ isGranted ->
-        if(isGranted)
+        if(isGranted) {
             loadMedia()
+            initMusicPlayer()
+        }
         else finish()
     }
 
@@ -67,8 +69,6 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
     private lateinit var songArt: ImageView
     private lateinit var songTitle: TextView
     private lateinit var artistName: TextView
-
-    private val progressExecutor = Executors.newSingleThreadScheduledExecutor()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,43 +91,15 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
             }
             else
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        else
+        else {
             loadMedia()
-
-        playPause.setOnClickListener{
-            if (AeonMusicPlayer.getInstance(this).isPlaying)
-                onSongPaused(this) {}
-            else
-                onSongPlayed(this) {}
+            initMusicPlayer()
         }
-
-        skipNext.setOnClickListener{
-            onSongSkippedToNext(this)
-        }
-
-        skipPrevious.setOnClickListener {
-            onSongSkippedToPrevious(this)
-        }
-
-        val preferences = AeonPreferences.getInstance(this)
-
-        songsViewModel.loadAllSongs(this)
-        //albumsViewModel.loadAllAlbums(this)
-
-        AeonMusicPlayer.setPlaybackListener(this)
-        AeonMusicPlayer.setPlayMode(preferences.getPlayMode())
-        AeonMusicPlayer.initialize(
-            this, songsViewModel.getSongById(preferences.getCurrentSongId()))
-
-        displaySong()
-
-        updateSongProgress(progressBar)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        progressExecutor.shutdownNow()
         AeonMusicPlayer.getInstance(this).release()
     }
 
@@ -159,19 +131,48 @@ class AeonMainActivity: AppCompatActivity(), PlaybackListener {
         TabLayoutMediator(tab, viewPager2, true, true) { tabItem, position ->
             tabItem.text = getString(PagerAdapter.TAB_TITLES[position])
         }.attach()
+
+        songsViewModel.loadAllSongs(this)
     }
 
     private fun displaySong() {
         onSongChanged {
             songTitle.text = it.title
             artistName.text = it.artist
+            if(it.thumbnail != null)
+                songArt.setImageBitmap(it.thumbnail)
+            else songArt.setImageBitmap(null) // To put default art
         }
     }
 
-    private fun AppCompatActivity.updateSongProgress(progressBar: ProgressBar) {
-        songsViewModel.getProgress().observe(this){
+    private fun initMusicPlayer(){
+
+        playPause.setOnClickListener{
+            if (AeonMusicPlayer.getInstance(this).isPlaying)
+                onSongPaused(this) {}
+            else
+                onSongPlayed(this) {}
+        }
+
+        skipNext.setOnClickListener{
+            onSongSkippedToNext(this)
+        }
+
+        skipPrevious.setOnClickListener {
+            onSongSkippedToPrevious(this)
+        }
+
+        val preferences = AeonPreferences.getInstance(this)
+
+        AeonMusicPlayer.setPlaybackListener(this)
+        AeonMusicPlayer.setPlayMode(preferences.getPlayMode())
+        AeonMusicPlayer.initialize(
+            this, songsViewModel.getSongById(preferences.getCurrentSongId()))
+
+        displaySong()
+
+        songsViewModel.updateProgress(this){
             progressBar.progress = it
         }
     }
 }
-

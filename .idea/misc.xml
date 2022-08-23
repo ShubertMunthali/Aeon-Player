@@ -3,14 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/drawable/aoen.xml" value="0.25" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/drawable/pause.xml" value="0.2075" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/drawable/progress_bar.xml" value="0.2055" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/drawable/song_dialog.xml" value="0.2015" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/aeon_main.xml" value="0.25" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/album.xml" value="0.33" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/albums.xml" value="0.1" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/all_songs.xml" value="0.2" />
-        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/now_playing.xml" value="0.75" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/artist.xml" value="0.2" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/artists.xml" value="0.19583333333333333" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/folder.xml" value="0.19583333333333333" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/folders.xml" value="0.19583333333333333" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/now_playing.xml" value="0.33" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/option.xml" value="0.33" />
         <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/recyclerview.xml" value="0.2" />
-        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/song.xml" value="0.25" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/song.xml" value="0.33" />
+        <entry key="..\:/Infbyte_Technologies/Apps/AeonPlayer/app/src/main/res/layout/song_dialog.xml" value="0.1644021739130435" />
       </map>
     </option>
   </component>

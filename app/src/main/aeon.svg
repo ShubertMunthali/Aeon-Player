@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+    width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 400 200" xml:space="preserve">
+    <circle fill="url(#gr1)" cx="100" cy="100" r="80" />
+    <circle cx="100" cy="100" r="15"/>
+    <polyline fill="none" style="stroke:#BB86FC;stroke-width:20"
+        clip-path="url(#clipA)"
+        points="30 200, 100 10 170,200"/>
+    <clipPath id="clipA">
+    <circle fill="none" cx="100" cy="100" r="80" />
+    </clipPath>
+
+    <defs>
+            <radialGradient id="gr1">
+                <stop
+                    offset="20%"
+                    stop-color="#BB86FC"
+                />
+                <stop
+                    offset="70%"
+                    stop-color="#BAE445"
+                />
+            </radialGradient>
+    </defs>
+</svg>

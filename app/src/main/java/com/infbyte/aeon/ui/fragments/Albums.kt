@@ -9,14 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infbyte.aeon.databinding.AlbumsBinding
 import com.infbyte.aeon.ui.adapters.AlbumsAdapter
-import com.infbyte.aeon.viewmodels.AlbumsViewModel
+import com.infbyte.aeon.viewmodels.AeonMusicViewModel
 
 class Albums: Fragment() {
 
     private var _binding: AlbumsBinding? = null
     private val binding get() = _binding!!
-
-    private val albumsViewModel: AlbumsViewModel by activityViewModels()
+    private val songsViewModel: AeonMusicViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +29,8 @@ class Albums: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(requireContext())
-        val adapter = AlbumsAdapter(albumsViewModel.getAllAlbums())
+        val adapter = AlbumsAdapter(songsViewModel.getAllAlbums())
         val recyclerView = binding.container.recyclerView
-
-        println(albumsViewModel.getAllAlbums().size)
 
         recyclerView.apply{
             this.adapter = adapter

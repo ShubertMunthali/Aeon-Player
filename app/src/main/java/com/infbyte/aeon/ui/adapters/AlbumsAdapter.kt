@@ -19,8 +19,9 @@ class AlbumsAdapter(private val albums: List<Album>): RecyclerView.Adapter<Album
     override fun getItemCount() = albums.size
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        holder.albumTitle.text = albums[position].art
-        holder.numberOfSongs.text = albums[position].id.toString()
+        holder.albumTitle.text = albums[position].title
+        holder.numberOfSongs.text = albums[position].numberOfSongs.toString()
+        holder.albumArt.setImageBitmap(albums[position].art)
     }
 
     class AlbumViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

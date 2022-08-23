@@ -10,9 +10,15 @@
     <string name="song_name">Song</string>
     <string name="artist_name">Artist</string>
     <string name="song_art">Song art</string>
-    <string name="play_previous">Press to play previous</string>
-    <string name="play_pause">Press to play or pause</string>
-    <string name="play_next">Press to play next</string>
+    <string name="play_previous">Play previous</string>
+    <string name="play_pause">Play or pause</string>
+    <string name="play_next">Play next</string>
     <string name="album_name">Album</string>
     <string name="number_of_songs">Number of songs</string>
+    <string name="option">Option</string>
+    <string name="play_now">Play now</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="song_info">Song info</string>
+    <string name="no">No</string>
 </resources>

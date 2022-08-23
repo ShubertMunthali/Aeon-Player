@@ -1,12 +1,16 @@
 package com.infbyte.aeon.models
 
-data class Song (
+import android.graphics.Bitmap
+
+data class Song(
     val id: Long,
     val title: String,
     val artist: String,
+    val artistId: Long,
     val album: String,
+    val albumId: Long,
     val duration: Long,
-    val albumId: Int,
-    var art: String = "",
-    val path: String
-    )
+    var art: String? = null,
+    val folder: String,
+    val thumbnail: Bitmap? = null
+)

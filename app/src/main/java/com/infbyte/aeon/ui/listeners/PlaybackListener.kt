@@ -11,14 +11,12 @@ interface  PlaybackListener {
     fun onSongPlayed(context: Context, player: (AeonMusicPlayer) -> Unit) {
         val aeonPlayer = AeonMusicPlayer.getInstance(context)
         aeonPlayer.start()
-        //AeonMusicPlayer.isPlaying.value = aeonPlayer.isPlaying
         player(aeonPlayer)
     }
 
     fun onSongPaused(context: Context, player: (AeonMusicPlayer) -> Unit) {
         val aeonPlayer = AeonMusicPlayer.getInstance(context)
         aeonPlayer.pause()
-        //AeonMusicPlayer.isPlaying.value = aeonPlayer.isPlaying
         player(aeonPlayer)
     }
 

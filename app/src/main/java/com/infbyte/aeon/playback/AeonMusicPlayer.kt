@@ -15,6 +15,7 @@ import com.infbyte.aeon.preferences.AeonPreferences
 import com.infbyte.aeon.ui.listeners.PlaybackListener
 
 class AeonMusicPlayer private constructor(private val context: Context): MediaPlayer(), MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
+
     private constructor(context: Context, song: Song): this(context){
             currentSong = song
             initialize()
