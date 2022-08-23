@@ -84,6 +84,12 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
         playbackListener?.onSongPlayed(context){}
     }
 
+    private fun playNext(song: Song){
+        currentSong = song
+        prepareSong(song)
+        playbackListener?.onSongPlayed(context){}
+    }
+
     private fun shuffle(){
         var nextSong = currentSong
         if(currentSongList.isNotEmpty()) nextSong = currentSongList.random()
@@ -99,14 +105,19 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        when(playMode){
-            REPEAT_ONE ->
-                repeat()
-            REPEAT ->
-                playNext()
-            SHUFFLE ->
-                shuffle()
+        if(nextSong != null) {
+            playNext(nextSong!!)
+            nextSong = null
         }
+        else
+            when(playMode){
+                REPEAT_ONE ->
+                    repeat()
+                REPEAT ->
+                    playNext()
+                SHUFFLE ->
+                    shuffle()
+            }
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
@@ -132,6 +143,8 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
 
         private var currentSong: Song? = null
 
+        private var nextSong: Song? = null
+
         fun initialize(context: Context, song: Song): AeonMusicPlayer{
             return getInstance(context, song)
         }
@@ -155,6 +168,10 @@ class AeonMusicPlayer private constructor(private val context: Context): MediaPl
 
         fun setPlayMode(mode: Int){
             playMode = mode
+        }
+
+        fun setNextSong(song: Song?){
+            nextSong = song
         }
 
         fun getCurrentSong() = currentSong!!

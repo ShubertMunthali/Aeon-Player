@@ -42,7 +42,7 @@ class OptionsAdapter(
             val context = v.context
             when(adapterPosition){
                 0 -> playNow(context)
-                1 -> {}
+                1 -> queueForNextPlay()
                 2 -> {}
                 3 -> {}
                 else -> {}
@@ -71,6 +71,10 @@ class OptionsAdapter(
                     //Open playing activity
                 }
             }
+        }
+
+        private fun queueForNextPlay(){
+            AeonMusicPlayer.setNextSong(song)
         }
     }
 }

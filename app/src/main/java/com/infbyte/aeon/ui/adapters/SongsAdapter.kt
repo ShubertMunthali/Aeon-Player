@@ -10,7 +10,7 @@ import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.playback.AeonMusicPlayer
 import com.infbyte.aeon.ui.fragments.dialogs.SongDialog
 import de.hdodenhof.circleimageview.CircleImageView
-//Song List Adapter
+
 class SongsAdapter(private val songs: List<Song>): RecyclerView.Adapter<SongsAdapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
