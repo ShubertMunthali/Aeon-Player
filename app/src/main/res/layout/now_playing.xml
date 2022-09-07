@@ -47,7 +47,7 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center|center_vertical|center_horizontal"
                     android:contentDescription="@string/song_art"
-                    android:src="@drawable/test_art"/>
+                    android:src="@drawable/aeon" />
             </FrameLayout>
 
             <LinearLayout

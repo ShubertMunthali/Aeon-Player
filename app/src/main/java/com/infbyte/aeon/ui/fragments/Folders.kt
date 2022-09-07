@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infbyte.aeon.databinding.FoldersBinding
+import com.infbyte.aeon.models.Folder
 import com.infbyte.aeon.ui.adapters.FoldersAdapter
 import com.infbyte.aeon.viewmodels.AeonMusicViewModel
 
@@ -45,6 +46,9 @@ class Folders: Fragment() {
     }
 
     companion object{
+
+        lateinit var selectedFolder: Folder
+
         fun newInstance() = Folders()
     }
 }

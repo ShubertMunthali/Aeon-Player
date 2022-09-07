@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.provider.MediaStore
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,6 @@ import kotlinx.coroutines.withContext
 class AeonMusicViewModel: ViewModel() {
 
     private val  defaultDispatcher = Dispatchers.Default
-    private val songs = mutableListOf<Song>()
     private val albums = mutableListOf<Album>()
     private val artists = mutableListOf<Artist>()
     private val folders = mutableListOf<Folder>()
@@ -73,8 +73,9 @@ class AeonMusicViewModel: ViewModel() {
                         cursor.getString(albumCOLUMN),
                         albumId,
                         cursor.getLong(durationCOLUMN),
-                        folder = getFolderName(path),
-                        art = uri,
+                        uri,
+                        getFolderName(path),
+                        path,
                         thumbnail = thumbnail
                     )
                     songs.add(song)
@@ -93,13 +94,22 @@ class AeonMusicViewModel: ViewModel() {
                 if(!albumNames.contains(song.album)) {
                     albumNames.add(song.album)
                     val album =
-                        Album(song.album, song.thumbnail, countSongsInAlbum(song.albumId))
+                        Album(song.albumId, song.album, song.thumbnail, countSongsInAlbum(song.albumId))
                     albums.add(album)
                 }
             }
         }
 
         return albums
+    }
+
+    fun getSongsByAlbum(albumId: Long): List<Song>{
+        val aSongs = mutableListOf<Song>()
+        for(song in songs){
+            if(song.albumId == albumId)
+                aSongs.add(song)
+        }
+        return aSongs
     }
 
     private fun countSongsInAlbum(albumId: Long):Int{
@@ -130,6 +140,15 @@ class AeonMusicViewModel: ViewModel() {
         return artists
     }
 
+    fun getSongsByArtist(artistId: Long): List<Song>{
+        val aSongs = mutableListOf<Song>()
+        for(song in songs){
+            if(song.artistId == artistId)
+                aSongs.add(song)
+        }
+        return aSongs
+    }
+
     private fun countSongsByArtist(artistId: Long): Int{
         var numberOfSongs = 0
         for(song in songs){
@@ -149,6 +168,15 @@ class AeonMusicViewModel: ViewModel() {
             }
         }
         return folders
+    }
+
+    fun getSongsByFolder(folderName: String): List<Song>{
+        val fSongs = mutableListOf<Song>()
+        for(song in songs){
+            if(song.folder == folderName)
+                fSongs.add(song)
+        }
+        return fSongs
     }
 
     private fun countSongsInFolder(name: String): Int{
@@ -223,6 +251,7 @@ class AeonMusicViewModel: ViewModel() {
     }
 
     companion object{
+        private val songs = mutableListOf<Song>()
         val SONG_PROJECTION = arrayOf(
             MediaStore.Audio.AudioColumns._ID,
             MediaStore.Audio.AudioColumns.TITLE,

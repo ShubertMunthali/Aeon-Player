@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infbyte.aeon.databinding.AlbumsBinding
+import com.infbyte.aeon.models.Album
+import com.infbyte.aeon.models.Folder
 import com.infbyte.aeon.ui.adapters.AlbumsAdapter
 import com.infbyte.aeon.viewmodels.AeonMusicViewModel
 
@@ -44,6 +46,9 @@ class Albums: Fragment() {
     }
 
     companion object{
+
+        lateinit var selectedAlbum: Album
+
         fun newInstance() = Albums()
     }
 }

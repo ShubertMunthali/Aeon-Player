@@ -2,6 +2,7 @@ package com.infbyte.aeon.preferences
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.os.PersistableBundle
 import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.playback.AeonMusicPlayer
 import com.infbyte.aeon.playback.AeonMusicPlayer.PlayMode.REPEAT
@@ -29,6 +30,10 @@ class AeonPreferences private constructor(context: Context) {
     }
 
     fun getPlayMode() = sharedPreferences.getInt(PLAY_MODE, REPEAT)
+
+    fun storePlayList(name: String){
+        //PersistableBundle().putL
+    }
 
     companion object{
         const val NAME = "aeon_prefs"

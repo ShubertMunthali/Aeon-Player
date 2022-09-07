@@ -21,4 +21,7 @@
     <string name="add_to_playlist">Add to playlist</string>
     <string name="song_info">Song info</string>
     <string name="no">No</string>
+    <string name="song_size">Size</string>
+    <string name="bit_rate">Bitrate</string>
+    <string name="path">Path</string>
 </resources>

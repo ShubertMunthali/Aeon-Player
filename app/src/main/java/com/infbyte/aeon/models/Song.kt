@@ -12,5 +12,8 @@ data class Song(
     val duration: Long,
     var art: String? = null,
     val folder: String,
+    val path: String = "",
+    val size: Int = 0,
+    val bitrate: Int = 0,
     val thumbnail: Bitmap? = null
 )

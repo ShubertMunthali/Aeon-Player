@@ -12,18 +12,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.infbyte.aeon.R
+import com.infbyte.aeon.databinding.SongDialogBinding
 import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.ui.adapters.OptionsAdapter
 
 class SongDialog: DialogFragment() {
 
     private val container: ViewGroup? = null
+    private var _binding: SongDialogBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.song_dialog, container, false)
+        _binding = SongDialogBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())
-            .setView(view)
+            .setView(binding.root)
         val items = listOf(
             getString(PLAY_NOW),
             getString(PLAY_NEXT),
@@ -31,7 +33,7 @@ class SongDialog: DialogFragment() {
             getString(FAVORITE),
             getString(SONG_INFO)
         )
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = binding.include.recyclerView
         val layoutManager = LinearLayoutManager(requireContext())
         val dialog = builder.create()
         val adapter = OptionsAdapter(dialog, items, selectedSong, songs)
@@ -40,7 +42,14 @@ class SongDialog: DialogFragment() {
             this.adapter = adapter
             this.layoutManager = layoutManager
         }
+        SongInfo.fragManager = parentFragmentManager
+        SongInfo.selectedSong = selectedSong
         return dialog
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     fun show(){

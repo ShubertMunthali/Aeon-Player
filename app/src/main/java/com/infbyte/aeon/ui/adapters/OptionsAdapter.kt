@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.infbyte.aeon.R
 import com.infbyte.aeon.models.Song
 import com.infbyte.aeon.playback.AeonMusicPlayer
+import com.infbyte.aeon.ui.fragments.dialogs.SongInfo
 
 class OptionsAdapter(
     private val owner: Dialog,
@@ -42,16 +43,17 @@ class OptionsAdapter(
             val context = v.context
             when(adapterPosition){
                 0 -> playNow(context)
-                1 -> queueForNextPlay()
+                1 -> queueForNextPlay(context)
                 2 -> {}
                 3 -> {}
-                else -> {}
+                else -> {showSongInfo()}
             }
             owner.dismiss()
         }
 
         private fun playNow(context: Context){
             if(songs.isNotEmpty()) {
+                AeonMusicPlayer.setNextSong(null)
                 if(song != AeonMusicPlayer.getCurrentSong())
                     AeonMusicPlayer.getInstance(context).apply {
                         prepareSong(song)
@@ -73,8 +75,13 @@ class OptionsAdapter(
             }
         }
 
-        private fun queueForNextPlay(){
+        private fun queueForNextPlay(context: Context){
             AeonMusicPlayer.setNextSong(song)
+            AeonMusicPlayer.getInstance(context).setCurrentSongs(songs)
+        }
+
+        private fun showSongInfo(){
+            SongInfo.newInstance().show()
         }
     }
 }

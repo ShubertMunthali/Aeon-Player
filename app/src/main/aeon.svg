@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
     width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 400 200" xml:space="preserve">
-    <circle fill="url(#gr1)" cx="100" cy="100" r="80" />
-    <circle cx="100" cy="100" r="15"/>
-    <polyline fill="none" style="stroke:#BB86FC;stroke-width:20"
+    <g>
+        <circle fill="url(#gr1)" cx="100" cy="100" r="80" />
+        <circle fill="#001122" cx="100" cy="100" r="10"/>
+    </g>
+    <polyline fill="none" style="stroke:whitesmoke;stroke-width:20"
         clip-path="url(#clipA)"
         points="30 200, 100 10 170,200"/>
     <clipPath id="clipA">
     <circle fill="none" cx="100" cy="100" r="80" />
     </clipPath>
-
+    <path fill="#001122" d="M130,180c0,-80 1,0 -10,1 c-10,0 -8,10 0,10 c0,0 10,0 10,-10 v-36.5h5z
+     M160,175c0,-69 1,0 -10,1 c-10,0 -8,10 0,10 c0,0 10,0 10,-10 v-31.5h5"/>
+    <path fill="#001122" d="M129.7,144.6h17.705v7h-18.4"/>
+    <path fill="#001122" d="M165,144.6h-17.705v7h16.4"/>
     <defs>
             <radialGradient id="gr1">
                 <stop
                     offset="20%"
-                    stop-color="#BB86FC"
+                    stop-color="whitesmoke"
                 />
                 <stop
-                    offset="70%"
-                    stop-color="#BAE445"
+                    offset="50%"
+                    stop-color="#2EAAFF"
                 />
             </radialGradient>
     </defs>

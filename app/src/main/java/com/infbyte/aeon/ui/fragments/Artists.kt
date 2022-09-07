@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infbyte.aeon.databinding.ArtistsBinding
+import com.infbyte.aeon.models.Artist
 import com.infbyte.aeon.ui.adapters.ArtistsAdapter
 import com.infbyte.aeon.viewmodels.AeonMusicViewModel
 
@@ -44,6 +45,7 @@ class Artists: Fragment() {
     }
 
     companion object{
+        lateinit var selectedArtist: Artist
         fun newInstance() = Artists()
     }
 }

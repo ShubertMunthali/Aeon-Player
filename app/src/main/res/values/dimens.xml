@@ -1,4 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="now_playing_height">60dp</dimen>
+    <dimen name="info_text_margin">10dp</dimen>
+    <dimen name="info_art_margin">30dp</dimen>
+    <dimen name="info_layout_margin">10dp</dimen>
 </resources>

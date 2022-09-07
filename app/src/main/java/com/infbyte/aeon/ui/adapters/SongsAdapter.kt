@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.infbyte.aeon.R
 import com.infbyte.aeon.models.Song
@@ -23,29 +26,29 @@ class SongsAdapter(private val songs: List<Song>): RecyclerView.Adapter<SongsAda
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         holder.title.text = songs[position].title
         holder.artist.text = songs[position].artist
+
+        holder.moreOptions.setOnClickListener(holder.getMoreOptionsListener(position))
+        holder.songView.setOnClickListener(holder.getSongSelectedListener(position))
     }
 
-    inner class SongViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),
-        View.OnClickListener{
+    inner class SongViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val title: TextView = itemView.findViewById(R.id.songTitle)
         val artist: TextView = itemView.findViewById(R.id.artistName)
-        private val songView: View = itemView.findViewById(R.id.songView)
-        private val moreOptions: View = itemView.findViewById(R.id.moreOptions)
+        val songView: View = itemView.findViewById(R.id.songView)
+        val moreOptions: View = itemView.findViewById(R.id.moreOptions)
 
-        init{
-            songView.setOnClickListener(this)
-            moreOptions.setOnClickListener {
-                SongDialog.songs = songs
-                SongDialog.selectedSong = songs[adapterPosition]
-                val songDialog = SongDialog.newInstance()
-                songDialog.show()
-            }
+        fun getMoreOptionsListener(position: Int) = View.OnClickListener{
+            SongDialog.songs = songs
+            SongDialog.selectedSong = songs[position]
+            val songDialog = SongDialog.newInstance()
+            songDialog.show()
         }
 
-        override fun onClick(v: View) {
-            val context = v.context
+        fun getSongSelectedListener(position: Int) = View.OnClickListener{
+            val context = it.context
             if(songs.isNotEmpty()) {
-                val selectedSong = songs[adapterPosition]
+                AeonMusicPlayer.setNextSong(null)
+                val selectedSong = songs[position]
                 if(selectedSong != AeonMusicPlayer.getCurrentSong())
                     AeonMusicPlayer.getInstance(context).apply {
                         prepareSong(selectedSong)

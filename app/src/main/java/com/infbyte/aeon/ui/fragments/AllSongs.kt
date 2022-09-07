@@ -28,7 +28,6 @@ class AllSongs: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = AllSongsBinding.inflate(layoutInflater)
-        SongDialog.fragManager = parentFragmentManager
         return binding.root
     }
 
